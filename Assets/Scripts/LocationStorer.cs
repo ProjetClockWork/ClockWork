@@ -29,9 +29,8 @@ public class LocationStorer : MonoBehaviour
     void StorePosition()
     {
         for (int i = pastPos.Length - 1; i >= 1; i--)
-        {
             pastPos[i] = pastPos[i - 1];
-        }
+
         pastPos[0] = _transform.position;
     }
 
@@ -39,7 +38,10 @@ public class LocationStorer : MonoBehaviour
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(pastPos[LastPosID], 1);
+        for (int i = 1; i < LastPosID - 1 ; i++)
+            Gizmos.DrawSphere(pastPos[i], 0.1f);
+
+        Gizmos.DrawSphere(pastPos[LastPosID], 0.5f);
     }
 
 }
