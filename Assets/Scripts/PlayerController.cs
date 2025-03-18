@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]private float moveSpeed; //private mais visible dans unity
     [SerializeField]private float jumpPower;
+    [SerializeField]private float limiteJump;
+
+    private bool _isGrounded = true;
 
     void Awake()
     {
@@ -22,7 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         Move();
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && _isGrounded)
             Jump();
     }
 
@@ -42,5 +45,10 @@ public class PlayerController : MonoBehaviour
     {
         _rgbd2D.linearVelocityY = jumpPower;
         Debug.Log(_rgbd2D.linearVelocity);
+    }
+
+    void IsGrounded()
+    {
+
     }
 }
