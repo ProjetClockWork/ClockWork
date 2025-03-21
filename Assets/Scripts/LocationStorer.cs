@@ -23,7 +23,7 @@ public class LocationStorer : MonoBehaviour
     void Start()
     {
         _lastPosID = pastPos.Length - 1;
-        Debug.Log("Last position ID in Array =" + _lastPosID);
+        //Debug.Log("Last position ID in Array =" + _lastPosID);
     }
 
 
@@ -48,6 +48,9 @@ public class LocationStorer : MonoBehaviour
 
     void StartRewind()
     {
+        _rgbd2D.linearVelocityX = 0;
+        _rgbd2D.linearVelocityY = 0;
+
         _isRewind = true;
         _rewindStep = 0;
 
@@ -70,6 +73,11 @@ public class LocationStorer : MonoBehaviour
             _collider2D.enabled = true;
             _rgbd2D.gravityScale = 1;
             gameObject.SendMessage("StateToNormal");
+
+            for (int i = 0; i < _lastPosID; i++)
+            {
+                pastPos[i] = _transform.position;
+            }
         }
     }
 

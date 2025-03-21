@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]private float moveSpeed; //private mais visible dans unity
     [SerializeField]private float jumpPower;
-    //[SerializeField]private float limiteJump;
     [SerializeField]private float longueurCheckJump = 1.1f;
 
     [SerializeField]private float airDampening;
@@ -71,10 +70,6 @@ public class PlayerController : MonoBehaviour
             default:
                 break;
         }
-
-        //Debug.Log(state);
-        //if (Input.GetMouseButtonDown(0))
-        //    state = STATE.REWIND;
     }
 
     void Move()
@@ -91,12 +86,10 @@ public class PlayerController : MonoBehaviour
 
             if (hitRight && !hitRight.collider.isTrigger && Input.GetAxisRaw("Horizontal") == 1)
             {
-                //Debug.Log("hitRight");
                 Debug.DrawRay(transform.position, Vector2.right * (_monCollider.bounds.extents.x + Mathf.Abs(_monCollider.offset.x) * transform.localScale.x) * longueurCheckJump, Color.red);
             }
             else if (hitLeft && !hitLeft.collider.isTrigger && Input.GetAxisRaw("Horizontal") == -1)
             {
-                //Debug.Log("hitLeft");
                 Debug.DrawRay(transform.position, Vector2.left * (_monCollider.bounds.extents.x + Mathf.Abs(_monCollider.offset.x) * transform.localScale.x) * longueurCheckJump, Color.red);
             }
             else 
