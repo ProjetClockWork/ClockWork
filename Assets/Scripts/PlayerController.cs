@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            _rgbd2D.linearVelocity *= 5;
+            _rgbd2D.linearVelocity *= 3;
         }
     }
 
