@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,12 +23,17 @@ public class PlayerController : MonoBehaviour
     private RaycastHit2D hitRight;
     private RaycastHit2D hitLeft;
 
+    private IEnumerator dashCoroutine;
+    [SerializeField]private float dashSpeed = 15;
+    [SerializeField]private float dashNoInputTime = 0.3f;
+
 
     public enum STATE
     {
         NONE,
         NORMAL,
-        REWIND
+        REWIND,
+        DASHING,
     }
     private STATE state;
  
@@ -65,8 +71,15 @@ public class PlayerController : MonoBehaviour
                 }
 
                 break;
+
             case STATE.REWIND:
+                //rien
                 break;
+
+            case STATE.DASHING:
+                //rien
+                break;
+
             default:
                 break;
         }
@@ -93,8 +106,8 @@ public class PlayerController : MonoBehaviour
                 Debug.DrawRay(transform.position, Vector2.left * (_monCollider.bounds.extents.x + Mathf.Abs(_monCollider.offset.x) * transform.localScale.x) * longueurCheckJump, Color.red);
             }
             else 
-            { 
-                _rgbd2D.linearVelocityX = Input.GetAxisRaw("Horizontal") * moveSpeed; 
+            {
+                _rgbd2D.linearVelocityX = Input.GetAxisRaw("Horizontal") * moveSpeed;
             }
         }
     }
@@ -139,8 +152,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            _rgbd2D.linearVelocity *= 3;
+            dashCoroutine = DashTimer(dashNoInputTime);
+            StartCoroutine(dashCoroutine);
         }
+
+
     }
 
     public void StateToNormal()
@@ -151,5 +167,21 @@ public class PlayerController : MonoBehaviour
     public void StateToRewind()
     {
         state = STATE.REWIND;
+    }
+
+    private IEnumerator DashTimer(float waitTime)
+    {
+        state = STATE.DASHING;
+
+        //_rgbd2D.linearVelocity *= 3;
+
+        Vector3 playerScreenPosition = Camera.main.WorldToScreenPoint(this.transform.position);
+        Vector3 mouseScreenPosition = Input.mousePosition;
+
+        Vector3 playerToMouseVector = (mouseScreenPosition - playerScreenPosition).normalized;
+        _rgbd2D.linearVelocity = playerToMouseVector * dashSpeed;
+
+        yield return new WaitForSeconds(waitTime);
+        StateToNormal();
     }
 }
