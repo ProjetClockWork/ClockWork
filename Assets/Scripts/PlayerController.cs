@@ -175,6 +175,8 @@ public class PlayerController : MonoBehaviour
 
         //_rgbd2D.linearVelocity *= 3;
 
+        _rgbd2D.linearDamping = airDampening;
+
         Vector3 playerScreenPosition = Camera.main.WorldToScreenPoint(this.transform.position);
         Vector3 mouseScreenPosition = Input.mousePosition;
 

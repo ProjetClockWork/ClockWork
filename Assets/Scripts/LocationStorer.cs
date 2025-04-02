@@ -8,7 +8,7 @@ public class LocationStorer : MonoBehaviour
     private Rigidbody2D _rgbd2D;
     private Collider2D _collider2D;
 
-    [SerializeField]private Vector3[] pastPos;
+    [SerializeField] private Vector3[] pastPos;
     private int _lastPosID;
 
     private bool _isRewind;
@@ -66,7 +66,7 @@ public class LocationStorer : MonoBehaviour
             Debug.Log("rewind step " + _rewindStep);
             _rewindStep += 2;
         }
-        else 
+        else
         {
             _isRewind = false;
 
@@ -74,10 +74,15 @@ public class LocationStorer : MonoBehaviour
             _rgbd2D.gravityScale = 1;
             gameObject.SendMessage("StateToNormal");
 
-            for (int i = 0; i < _lastPosID; i++)
-            {
-                pastPos[i] = _transform.position;
-            }
+            storeInAllSlots();
+        }
+    }
+
+    void storeInAllSlots()
+    {
+        for (int i = 0; i < _lastPosID; i++)
+        {
+            pastPos[i] = _transform.position;
         }
     }
 
